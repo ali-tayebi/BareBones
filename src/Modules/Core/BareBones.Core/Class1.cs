@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BareBones.DDD
+namespace BareBones.Core
 {
     public class Class1
     {
