@@ -1,4 +1,4 @@
-namespace BareBones.DDD.DomainEvents
+namespace BareBones.Domain.Abstracts
 {
     public interface IDomainEvent
     {

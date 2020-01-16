@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\DDD\BareBones.Domain.Abstracts\BareBones.Domain.Abstracts.csproj" />
+      <ProjectReference Include="..\..\BareBones.Persistence.Repository.Abstracts\BareBones.Persistence.Repository.Abstracts.csproj" />
+    </ItemGroup>
+
+</Project>

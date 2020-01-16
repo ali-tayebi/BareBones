@@ -1,15 +1,14 @@
 using System.Collections.Generic;
-using BareBones.DDD.DomainEvents;
 
-namespace BareBones.DDD.Aggregates
+namespace BareBones.Domain.Abstracts
 {
-    public abstract class EntityBase<TEntityId>
+    public abstract class EntityBase<TId>
     {
         int? _requestedHashCode;
 
-        private TEntityId _Id;
+        private TId _Id;
 
-        public virtual  TEntityId Id
+        public virtual  TId Id
         {
             get => _Id;
             protected set
@@ -39,12 +38,12 @@ namespace BareBones.DDD.Aggregates
 
         public bool IsTransient()
         {
-            return Id.Equals(default(TEntityId));
+            return Id.Equals(default(TId));
         }
 
         public override bool Equals(object obj)
         {
-            if (!(obj is EntityBase<TEntityId>))
+            if (!(obj is EntityBase<TId>))
                 return false;
 
             if (ReferenceEquals(this, obj))
@@ -53,7 +52,7 @@ namespace BareBones.DDD.Aggregates
             if (GetType() != obj.GetType())
                 return false;
 
-            var item = (EntityBase<TEntityId>) obj;
+            var item = (EntityBase<TId>) obj;
 
             if (item.IsTransient() || IsTransient())
                 return false;
@@ -70,16 +69,16 @@ namespace BareBones.DDD.Aggregates
 
                 return _requestedHashCode.Value;
             }
-            else
-                return base.GetHashCode();
 
+            return base.GetHashCode();
         }
-        public static bool operator ==(EntityBase<TEntityId> left, EntityBase<TEntityId> right)
+
+        public static bool operator ==(EntityBase<TId> left, EntityBase<TId> right)
         {
             return left?.Equals(right) ?? Equals(right, null);
         }
 
-        public static bool operator !=(EntityBase<TEntityId> left, EntityBase<TEntityId> right)
+        public static bool operator !=(EntityBase<TId> left, EntityBase<TId> right)
         {
             return !(left == right);
         }
