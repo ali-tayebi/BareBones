@@ -1,8 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\src\Modules\CQRS\BareBones.CQRS\BareBones.CQRS.csproj" />
+      <ProjectReference Include="..\..\..\src\Modules\Persistence\EntityFramework\BareBones.Persistence.EntityFramework\BareBones.Persistence.EntityFramework.csproj" />
+      <ProjectReference Include="..\..\..\src\Modules\WebApi\BareBones.WebApi\BareBones.WebApi.csproj" />
+      <ProjectReference Include="..\Ordering.Application\Ordering.Application.csproj" />
+      <ProjectReference Include="..\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    </ItemGroup>
 
 
 </Project>

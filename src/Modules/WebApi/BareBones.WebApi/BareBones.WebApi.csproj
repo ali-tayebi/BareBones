@@ -5,4 +5,8 @@
         <OutputType>Library</OutputType>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Core\BareBones.Core\BareBones.Core.csproj" />
+    </ItemGroup>
+
 </Project>
