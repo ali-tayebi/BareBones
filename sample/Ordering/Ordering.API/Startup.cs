@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using BareBones.CQRS;
 using BareBones.Persistence.EntityFramework;
@@ -12,7 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ordering.Application.UseCases.OrderCancellation;
 using Ordering.Domain;
+using Ordering.Domain.Models.BuyerAggregate;
 using Ordering.Infrastructure;
+using Ordering.Infrastructure.Data;
 using Ordering.Infrastructure.Repositories;
 
 namespace Ordering.API
@@ -35,15 +38,23 @@ namespace Ordering.API
 
             services.AddScoped<IOrderRepository, OrderRepositoryBase>();
             services.AddScoped<IExecutionContext, ExecutionContext>();
-            services.AddOrderingDbContext<OrderingDbContextBase>(Configuration);
+            services.AddOrderingDbContext<OrderingDbContext>(Configuration);
 
             services.AddHostedService<StartupTaskHostedService>();
-            //services.AddStartupTask<MigrationStartupTask<OrderingDbContextBase>>();
+            services.AddStartupTask<MigrationStartupTask<OrderingDbContext>>();
             services.AddStartupTask<LoggingStartupTask>();
-            services.AddStartupTask<DataSeedingStartupTask<OrderingDbContextBase>>();
-            services.AddTransient<IDataSeeder, BypassDataSeeder>();
+            services.AddStartupTask<DataSeedingStartupTask<OrderingDbContext>>();
+            services.AddTransient<IDbDataSeeder<OrderingDbContext>, OrderingDbDataSeeder>();
 
+            services.AddSingleton<
+               IDbDataProvider<IEnumerable<OrderStatus>>,
+               PredefinedOrderStatusDataProvider>();
 
+           services.AddSingleton<
+               IDbDataProvider<IEnumerable<CardType>>,
+               PredefinedCardTypeDataProvider>();
+
+           services.AddTransient<IExecutionPolicy, SimpleExecutionPolicy>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,28 +84,17 @@ namespace Ordering.API
             where T : DbContext
         {
             services
-                .AddDbContext<OrderingDbContextBase>(options =>
+                .AddDbContext<OrderingDbContext>(options =>
                     {
                         options.UseSqlServer(configuration.GetConnectionString("OrderingDb"),
                             sqlServerOptionsAction: sqlOptions =>
                             {
-                                sqlOptions.MigrationsAssembly(typeof(OrderingEntityBase).GetTypeInfo().Assembly.GetName().Name);
+                                sqlOptions.MigrationsAssembly(typeof(OrderingDbContext).GetTypeInfo().Assembly.GetName().Name);
                                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                             });
                     },
                     ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
                 );
-
-            // services.AddDbContext<IntegrationEventLogContext>(options =>
-            // {
-            //     options.UseSqlServer(configuration["ConnectionString"],
-            //         sqlServerOptionsAction: sqlOptions =>
-            //         {
-            //             sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-            //             //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
-            //             sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-            //         });
-            // });
 
             return services;
         }

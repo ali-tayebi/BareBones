@@ -7,9 +7,9 @@ namespace Ordering.Infrastructure.Repositories
     public class OrderRepositoryBase : RepositoryBase<Order, int>, IOrderRepository
     {
         public OrderRepositoryBase(
-            OrderingDbContextBase dbContextBase,
+            OrderingDbContext dbContext,
             IExecutionContext currentRequestState)
-            : base(dbContextBase, currentRequestState)
+            : base(dbContext, currentRequestState)
         {
         }
 

@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BareBones.Persistence.EntityFramework.Migration
 {
-    public interface IDataSeeder
+    public interface IDbDataSeeder<TDbContext> where TDbContext : DbContext
     {
-        Task SeedAsync<TDbContext>(TDbContext dbContext) where TDbContext : DbContext;
+        Task SeedAsync(TDbContext dbContext);
     }
 }

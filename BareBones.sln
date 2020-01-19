@@ -7,6 +7,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{081B7B2A-A045-418B-AEC9-A024FEF3E286}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{524E81AC-41C3-4F5D-ACFC-DA47C0E05BBB}"
+ProjectSection(SolutionItems) = preProject
+	sample\Ordering\Makefile = sample\Ordering\Makefile
+EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.API", "sample\Ordering\Ordering.API\Ordering.API.csproj", "{7D8A7059-3E0C-4E7E-BEE3-EF0B7E55B6EA}"
 EndProject

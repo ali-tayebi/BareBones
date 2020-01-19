@@ -12,18 +12,18 @@ namespace BareBones.Persistence.EntityFramework
     public class RepositoryBase<TEntity, TEntityId> : IRepositoryBase<TEntity, TEntityId>
         where TEntity : EntityBase<TEntityId>, IAggregateRoot
     {
-        protected readonly DbContextBase _contextBase;
+        protected readonly DbContextBase _context;
         protected readonly DbSet<TEntity> DbSet;
-        public IUnitOfWork UnitOfWork => _contextBase;
+        public IUnitOfWork UnitOfWork => _context;
 
 
         public IExecutionContext CurrentRequestState { get; }
 
-        public RepositoryBase(DbContextBase dbContextBase, IExecutionContext currentRequestState)
+        public RepositoryBase(DbContextBase dbContext, IExecutionContext currentRequestState)
         {
-            _contextBase = dbContextBase;
+            _context = dbContext;
             CurrentRequestState = currentRequestState;
-            DbSet = _contextBase.Set<TEntity>();
+            DbSet = _context.Set<TEntity>();
         }
 
         public IEnumerable<TEntity> Get(
@@ -179,17 +179,19 @@ namespace BareBones.Persistence.EntityFramework
         public virtual void MarkAsModified(TEntity entity)
         {
             DbSet.Attach(entity);
-            _contextBase.Entry(entity).State = EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
+        // TODO: double check if it is useful
         public virtual void RefreshEntity(TEntity entity)
         {
-            _contextBase.Entry(entity).Reload();
+            _context.Entry(entity).Reload();
         }
 
+        // TODO: double check if it is useful
         public virtual void RefreshAll()
         {
-            foreach (var entity in _contextBase.ChangeTracker.Entries())
+            foreach (var entity in _context.ChangeTracker.Entries())
             {
                 entity.Reload();
             }
@@ -207,17 +209,18 @@ namespace BareBones.Persistence.EntityFramework
 
         public virtual bool HasChanges()
         {
-            return _contextBase.ChangeTracker.HasChanges();
+            return _context.ChangeTracker.HasChanges();
         }
 
         public virtual Task<int> SaveChangesAsync()
         {
-            return _contextBase.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
 
+        // TODO: double check if it is useful
         public virtual void ResetContextState()
         {
-            foreach (var entry in _contextBase.ChangeTracker.Entries().Where(e => e.Entity != null))
+            foreach (var entry in _context.ChangeTracker.Entries().Where(e => e.Entity != null))
             {
                 switch (entry.State)
                 {

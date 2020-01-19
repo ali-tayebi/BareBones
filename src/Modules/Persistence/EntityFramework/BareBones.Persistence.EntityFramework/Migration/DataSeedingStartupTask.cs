@@ -1,7 +1,9 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using BareBones.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BareBones.Persistence.EntityFramework.Migration
 {
@@ -9,18 +11,22 @@ namespace BareBones.Persistence.EntityFramework.Migration
         where TDbContext : DbContext
     {
         private readonly TDbContext _dbContext;
-        private readonly IDataSeeder _dataSeeder;
+        private readonly IServiceProvider _serviceProvider;
 
         public DataSeedingStartupTask(
             TDbContext dbContext,
-            IDataSeeder dataSeeder)
+            IServiceProvider serviceProvider)
         {
             _dbContext = dbContext;
-            _dataSeeder = dataSeeder;
+            _serviceProvider = serviceProvider;
         }
         public async Task ExecuteAsync(CancellationToken cancellationToken = default)
         {
-            await _dataSeeder.SeedAsync(_dbContext);
+            var dataSeeder = _serviceProvider.GetService<IDbDataSeeder<TDbContext>>();
+            if (dataSeeder != null)
+            {
+                await dataSeeder.SeedAsync(_dbContext);
+            }
         }
     }
 }
