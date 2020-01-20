@@ -18,9 +18,5 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Application\Features" />
-    </ItemGroup>
-
 
 </Project>

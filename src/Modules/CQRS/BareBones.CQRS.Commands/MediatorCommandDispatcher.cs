@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
@@ -12,9 +13,11 @@ namespace BareBones.CQRS.Commands
             _mediator = mediator;
         }
 
-        public Task<TResult> SendAsync<TResult>(ICommand<TResult> command)
+        public Task<TResult> SendAsync<TResult>(
+            ICommand<TResult> command,
+            CancellationToken  cancellationToken = default)
         {
-            return _mediator.Send(command);
+            return _mediator.Send(command, cancellationToken);
         }
     }
 }

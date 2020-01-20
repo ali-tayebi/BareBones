@@ -15,7 +15,9 @@ namespace Ordering.Application.UseCases.OrderCancellation
             _orderRepository = orderRepository;
         }
 
-        public async Task<CancelOrderCommandResult> Handle(CancelOrderCommand request, CancellationToken cancellationToken)
+        public async Task<CancelOrderCommandResult> Handle(
+            CancelOrderCommand request,
+            CancellationToken cancellationToken)
         {
             var order = await _orderRepository.GetByIdAsync(request.OrderId);
 
