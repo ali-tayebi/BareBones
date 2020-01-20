@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using BareBones.CQRS;
+using BareBones.CQRS.Commands;
+using BareBones.CQRS.Queries;
 using BareBones.Persistence.EntityFramework;
 using BareBones.Persistence.EntityFramework.Migration;
 using BareBones.WebApi;
@@ -36,7 +38,8 @@ namespace Ordering.API
         {
             services.AddControllers().AddNewtonsoftJson();
 
-            services.AddMediatorRequestDispatcher(typeof(CancelOrderCommandHandler).Assembly);
+            services.AddCommandDispatcher(typeof(CancelOrderCommandHandler).Assembly);
+            services.AddQueryDispatcher(typeof(CancelOrderCommandHandler).Assembly);
 
             services.AddScoped<IOrderRepository, OrderRepositoryBase>();
             services.AddScoped<IExecutionContext, ExecutionContext>();

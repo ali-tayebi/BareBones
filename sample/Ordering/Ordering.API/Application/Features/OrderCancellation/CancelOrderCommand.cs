@@ -1,5 +1,5 @@
 using System.Runtime.Serialization;
-using BareBones.CQRS;
+using BareBones.CQRS.Commands;
 
 namespace Ordering.Application.UseCases.OrderCancellation
 {

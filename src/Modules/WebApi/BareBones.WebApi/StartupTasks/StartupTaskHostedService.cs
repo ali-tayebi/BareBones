@@ -10,16 +10,16 @@ namespace BareBones.WebApi
 {
     public class StartupTaskHostedService : IHostedService
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public StartupTaskHostedService(IServiceProvider serviceProvider)
+        public StartupTaskHostedService(IServiceScopeFactory serviceScopeFactory)
         {
-            _serviceProvider = serviceProvider;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using (var scope = _serviceProvider.CreateScope())
+            using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<StartupTaskHostedService>>();
                 var startupTasks = scope.ServiceProvider.GetServices<IStartupTask>();

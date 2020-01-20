@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using BareBones.CQRS;
-using MediatR;
+using BareBones.CQRS.Commands;
 using Ordering.Domain;
 
 namespace Ordering.Application.UseCases.OrderCancellation

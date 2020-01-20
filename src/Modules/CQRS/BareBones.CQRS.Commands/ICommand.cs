@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace BareBones.CQRS
+namespace BareBones.CQRS.Commands
 {
     public interface ICommand<out TResult> : IRequest<TResult>
     {
