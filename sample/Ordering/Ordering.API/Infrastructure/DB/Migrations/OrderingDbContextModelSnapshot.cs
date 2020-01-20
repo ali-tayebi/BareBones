@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Ordering.Infrastructure;
+using Ordering.Persistence;
 
-namespace Ordering.Infrastructure.Migrations
+namespace Ordering.API.Infrastructure.DB.Migrations
 {
     [DbContext(typeof(OrderingDbContext))]
     partial class OrderingDbContextModelSnapshot : ModelSnapshot

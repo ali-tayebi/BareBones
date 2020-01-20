@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Ordering.Infrastructure.EntityConfiguration
+namespace Ordering.Persistence.EntityConfiguration
 {
     // class ClientRequestEntityTypeConfiguration
     //     : IEntityTypeConfiguration<ClientRequest>

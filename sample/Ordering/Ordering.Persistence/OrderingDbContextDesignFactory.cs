@@ -3,8 +3,9 @@ using BareBones.Persistence.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Ordering.Infrastructure
+namespace Ordering.Persistence
 {
+    // TODO: Is it required?
     public class OrderingDbContextDesignFactory : IDesignTimeDbContextFactory<OrderingDbContext>
     {
         public OrderingDbContext CreateDbContext(string[] args)

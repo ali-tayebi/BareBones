@@ -8,14 +8,17 @@
       <ProjectReference Include="..\..\..\src\Modules\CQRS\BareBones.CQRS\BareBones.CQRS.csproj" />
       <ProjectReference Include="..\..\..\src\Modules\Persistence\EntityFramework\BareBones.Persistence.EntityFramework\BareBones.Persistence.EntityFramework.csproj" />
       <ProjectReference Include="..\..\..\src\Modules\WebApi\BareBones.WebApi\BareBones.WebApi.csproj" />
-      <ProjectReference Include="..\Ordering.Application\Ordering.Application.csproj" />
-      <ProjectReference Include="..\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
+      <ProjectReference Include="..\Ordering.Persistence\Ordering.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Application\Features" />
     </ItemGroup>
 
 

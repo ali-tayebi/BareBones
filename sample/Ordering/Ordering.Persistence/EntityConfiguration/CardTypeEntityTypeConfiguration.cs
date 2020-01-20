@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ordering.Domain.Models.BuyerAggregate;
 
-namespace Ordering.Infrastructure.EntityConfiguration
+namespace Ordering.Persistence.EntityConfiguration
 {
     class CardTypeEntityTypeConfiguration
         : IEntityTypeConfiguration<CardType>

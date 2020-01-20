@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BareBones.Domain.Enumerations;
 using BareBones.Persistence.EntityFramework.Migration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -9,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Ordering.Domain;
 using Ordering.Domain.Models.BuyerAggregate;
 
-namespace Ordering.Infrastructure.Data
+namespace Ordering.Persistence.DataSeeding
 {
     public class OrderingDbDataSeeder : IDbDataSeeder<OrderingDbContext>
     {
@@ -21,7 +20,7 @@ namespace Ordering.Infrastructure.Data
         public OrderingDbDataSeeder(
             ILogger<OrderingDbDataSeeder> logger,
             IExecutionPolicy policy,
-           IDbDataProvider<IEnumerable<OrderStatus>> orderStatusDataProvider,
+            IDbDataProvider<IEnumerable<OrderStatus>> orderStatusDataProvider,
             IDbDataProvider<IEnumerable<CardType>> cardTypesDataProvider)
         {
             _logger = logger;
@@ -55,37 +54,6 @@ namespace Ordering.Infrastructure.Data
                     _logger.LogInformation("Data seeding is done");
                 }
             });
-        }
-    }
-
-    // TODO: Ensure it is a useful pattern!
-    public interface IDbDataProvider<out TData>
-    {
-        TData GetData();
-    }
-    public class PredefinedCardTypeDataProvider :
-        IDbDataProvider<IEnumerable<CardType>>
-    {
-        public IEnumerable<CardType> GetData()
-        {
-            return Enumeration.GetAll<CardType>();
-        }
-    }
-
-    public class PredefinedOrderStatusDataProvider :
-        IDbDataProvider<IEnumerable<OrderStatus>>
-    {
-        public IEnumerable<OrderStatus> GetData()
-        {
-            return new []
-            {
-                OrderStatus.Submitted,
-                OrderStatus.AwaitingValidation,
-                OrderStatus.StockConfirmed,
-                OrderStatus.Paid,
-                OrderStatus.Shipped,
-                OrderStatus.Cancelled
-            };
         }
     }
 

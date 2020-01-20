@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ordering.Domain;
 using Ordering.Domain.Models.BuyerAggregate;
 
-namespace Ordering.Infrastructure.EntityConfiguration
+namespace Ordering.Persistence.EntityConfiguration
 {
     class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
     {

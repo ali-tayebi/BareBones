@@ -12,15 +12,16 @@ endif
 mg-add:
 	dotnet ef migrations add $(name) \
 		--startup-project Ordering.API  \
-		--context Ordering.Infrastructure.OrderingDbContext \
-		--project Ordering.Infrastructure
+		--context Ordering.Persistence.OrderingDbContext \
+		--project Ordering.API \
+		--output-dir Infrastructure/DB/Migrations
 
 
 db-update:
 	dotnet ef database update  \
 		--startup-project Ordering.API  \
-		--context Ordering.Infrastructure.OrderingDbContext \
-		--project Ordering.Infrastructure
+		--context Ordering.Persistence.OrderingDbContext \
+		--project Ordering.API
 
 db-server:
 	docker run \

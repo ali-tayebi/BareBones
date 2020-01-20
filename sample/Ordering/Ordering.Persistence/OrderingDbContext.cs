@@ -3,9 +3,9 @@ using BareBones.Persistence.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Domain;
 using Ordering.Domain.Models.BuyerAggregate;
-using Ordering.Infrastructure.EntityConfiguration;
+using Ordering.Persistence.EntityConfiguration;
 
-namespace Ordering.Infrastructure
+namespace Ordering.Persistence
 {
     public class OrderingDbContext : DbContextBase
     {

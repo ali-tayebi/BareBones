@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using BareBones.CQRS;
 using BareBones.Persistence.EntityFramework;
@@ -11,12 +12,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ordering.API.Infrastructure.DB;
 using Ordering.Application.UseCases.OrderCancellation;
 using Ordering.Domain;
 using Ordering.Domain.Models.BuyerAggregate;
-using Ordering.Infrastructure;
-using Ordering.Infrastructure.Data;
-using Ordering.Infrastructure.Repositories;
+using Ordering.Persistence;
+using Ordering.Persistence.DataSeeding;
+using Ordering.Persistence.Repositories;
 
 namespace Ordering.API
 {
@@ -50,11 +52,20 @@ namespace Ordering.API
                IDbDataProvider<IEnumerable<OrderStatus>>,
                PredefinedOrderStatusDataProvider>();
 
-           services.AddSingleton<
-               IDbDataProvider<IEnumerable<CardType>>,
-               PredefinedCardTypeDataProvider>();
+            if (Configuration.GetValue<bool>("DataSeeding:UseCustomizationData"))
+            {
+                services.AddSingleton<
+                    IDbDataProvider<IEnumerable<CardType>>>(
+                    new JsonLineFileDbDataProvider<CardType>(Path.Combine("Data", "CardTypes.json")));
+            }
+            else
+            {
+                services.AddSingleton<
+                    IDbDataProvider<IEnumerable<CardType>>,
+                    PredefinedCardTypeDataProvider>();
+            }
 
-           services.AddTransient<IExecutionPolicy, SimpleExecutionPolicy>();
+            services.AddTransient<IExecutionPolicy, SimpleExecutionPolicy>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,7 +100,7 @@ namespace Ordering.API
                         options.UseSqlServer(configuration.GetConnectionString("OrderingDb"),
                             sqlServerOptionsAction: sqlOptions =>
                             {
-                                sqlOptions.MigrationsAssembly(typeof(OrderingDbContext).GetTypeInfo().Assembly.GetName().Name);
+                                sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
                                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                             });
                     },

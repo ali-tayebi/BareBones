@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Ordering.Infrastructure;
+using Ordering.Persistence;
 
-namespace Ordering.Infrastructure.Migrations
+namespace Ordering.API.Infrastructure.DB.Migrations
 {
     [DbContext(typeof(OrderingDbContext))]
-    [Migration("20200119110926_InitialCreate")]
+    [Migration("20200120025516_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

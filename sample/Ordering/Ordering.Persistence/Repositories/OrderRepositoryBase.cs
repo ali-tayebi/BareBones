@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using BareBones.Persistence.EntityFramework;
 using Ordering.Domain;
 
-namespace Ordering.Infrastructure.Repositories
+namespace Ordering.Persistence.Repositories
 {
     public class OrderRepositoryBase : RepositoryBase<Order, int>, IOrderRepository
     {
