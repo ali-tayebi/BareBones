@@ -1,11 +1,12 @@
 using System.Runtime.Serialization;
 using BareBones.CQRS.Commands;
+using Ordering.API.Application.Features.OrderCancellation;
 
 namespace Ordering.Application.UseCases.OrderCancellation
 {
-    public class CancelOrderCommand : ICommand<CancelOrderCommandResult>
+    public class CancelOrderCommand : ICommand
     {
-        public string CommandUniqueIdentity => OrderId.ToString();
+        public string UniqueId => OrderId.ToString();
 
         [DataMember]
         public int OrderId { get; }

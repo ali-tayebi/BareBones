@@ -1,12 +1,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using BareBones.Core;
+using BareBones;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace BareBones.WebApi
+namespace BareBones.StartupTasks
 {
     public class StartupTaskHostedService : IHostedService
     {
@@ -40,16 +40,5 @@ namespace BareBones.WebApi
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
-    }
-
-    [Serializable]
-    public class StartupTaskFatalException : Exception
-    {
-        public StartupTaskFatalException(Type startupTask, Exception innerException)
-            : base($"Fatal error in running startup task ({startupTask.FullName})", innerException)
-        {
-            StartupTask = startupTask;
-        }
-        public Type StartupTask { get; }
     }
 }

@@ -6,7 +6,7 @@ namespace Ordering.API.Application.Features.GettingOrdersById
 {
     public class GetOrderByIdQueryHandler : IQueryHandler<GetOrderByIdQuery, GetOrderByIdQueryResult>
     {
-        public Task<GetOrderByIdQueryResult> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
+        public Task<GetOrderByIdQueryResult> HandleAsync(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
             return Task.FromResult(new GetOrderByIdQueryResult
             {

@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using BareBones.Core;
+using BareBones;
 using Microsoft.EntityFrameworkCore;
 
 namespace BareBones.Persistence.EntityFramework.Migration
@@ -8,15 +8,21 @@ namespace BareBones.Persistence.EntityFramework.Migration
     public class MigrationStartupTask<TDbContext> : IStartupTask
         where TDbContext : DbContext
     {
-        private readonly TDbContext _context;
+        protected readonly TDbContext Context;
 
         public MigrationStartupTask(TDbContext context)
         {
-            _context = context;
+            Context = context;
         }
-        public async Task ExecuteAsync(CancellationToken cancellationToken = default)
+
+        Task IStartupTask.ExecuteAsync(CancellationToken cancellationToken = default)
         {
-            await  _context.Database.MigrateAsync(cancellationToken);
+            return MigrationAsync(cancellationToken);
+        }
+
+        protected virtual async Task MigrationAsync(CancellationToken cancellationToken)
+        {
+            await  Context.Database.MigrateAsync(cancellationToken);
         }
     }
 }

@@ -2,9 +2,12 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using BareBones.CQRS.Commands;
+using BareBones.CQRS.Commands.Gateways;
 using BareBones.CQRS.Queries;
+using BareBones.CQRS.Queries.Gateways;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.API.Application.Features.GettingOrdersById;
+using Ordering.API.Application.Features.OrderCancellation;
 using Ordering.Application.UseCases.OrderCancellation;
 
 namespace Ordering.API.Controllers
@@ -13,13 +16,13 @@ namespace Ordering.API.Controllers
     [Route("[controller]")]
     public class OrdersController : ControllerBase
     {
-        private readonly IQueryDispatcher _queryDispatcher;
-        private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IQueryGateway _queryGateway;
+        private readonly ICommandGateway _commandGateway;
 
-        public OrdersController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+        public OrdersController(IQueryGateway queryGateway, ICommandGateway commandDispatcher)
         {
-            _queryDispatcher = queryDispatcher;
-            _commandDispatcher = commandDispatcher;
+            _queryGateway = queryGateway;
+            _commandGateway = commandDispatcher;
         }
 
         [HttpGet("{orderId:int}")]
@@ -29,7 +32,7 @@ namespace Ordering.API.Controllers
             [FromRoute] GetOrderByIdQuery query,
             CancellationToken  cancellationToken = default)
         {
-            var queryResult = await _queryDispatcher.SendAsync(query, cancellationToken);
+            var queryResult = await _queryGateway.SendAsync<GetOrderByIdQuery, GetOrderByIdQueryResult>(query, cancellationToken);
             return Ok(queryResult);
         }
 
@@ -40,7 +43,7 @@ namespace Ordering.API.Controllers
             [FromBody]CancelOrderCommand command,
             CancellationToken  cancellationToken = default)
         {
-            var commandResult = await _commandDispatcher.SendAsync(command, cancellationToken);
+            var commandResult = await _commandGateway.SendAsync<CancelOrderCommand, CancelOrderCommandResult>(command, cancellationToken);
             return Ok(commandResult);
         }
     }

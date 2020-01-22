@@ -1,9 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
-using BareBones.Core;
+using BareBones;
 using Microsoft.Extensions.Logging;
 
-namespace BareBones.WebApi
+namespace BareBones.StartupTasks
 {
     public class LoggingStartupTask : IStartupTask
     {

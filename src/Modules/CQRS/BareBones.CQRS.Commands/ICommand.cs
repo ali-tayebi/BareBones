@@ -1,9 +1,7 @@
-using MediatR;
-
 namespace BareBones.CQRS.Commands
 {
-    public interface ICommand<out TResult> : IRequest<TResult>
+    public interface ICommand
     {
-        string CommandUniqueIdentity { get; }
+        string UniqueId { get; }
     }
 }

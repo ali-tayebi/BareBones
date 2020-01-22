@@ -1,7 +1,7 @@
-using BareBones.Core;
+using BareBones;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BareBones.WebApi
+namespace BareBones.StartupTasks
 {
     public static class ServiceCollectionExtensions
     {

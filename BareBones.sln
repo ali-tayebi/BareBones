@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CQRS", "CQRS", "{D1446AE8-9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDD", "DDD", "{6D68A882-B338-4641-B57C-67CF02637C98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BareBones.Core", "src\Modules\Core\BareBones.Core\BareBones.Core.csproj", "{4B142B13-1C48-42F4-ADBD-EAF578250BA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BareBones", "src\Modules\Core\BareBones\BareBones.csproj", "{4B142B13-1C48-42F4-ADBD-EAF578250BA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BareBones.Domain", "src\Modules\DDD\BareBones.Domain\BareBones.Domain.csproj", "{6CDFEFCE-1091-403C-BA44-31B180EA93C0}"
 EndProject

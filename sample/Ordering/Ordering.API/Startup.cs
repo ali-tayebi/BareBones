@@ -2,20 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using BareBones.CQRS;
-using BareBones.CQRS.Commands;
-using BareBones.CQRS.Queries;
+using BareBones;
 using BareBones.Persistence.EntityFramework;
+using BareBones.Persistence.EntityFramework.Builder;
 using BareBones.Persistence.EntityFramework.Migration;
-using BareBones.WebApi;
+using BareBones.StartupTasks;
+using BareBones.WebApi.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ordering.API.Infrastructure.DB;
-using Ordering.Application.UseCases.OrderCancellation;
 using Ordering.Domain;
 using Ordering.Domain.Models.BuyerAggregate;
 using Ordering.Persistence;
@@ -24,6 +22,8 @@ using Ordering.Persistence.Repositories;
 
 namespace Ordering.API
 {
+
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -36,39 +36,22 @@ namespace Ordering.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson();
-
-            services.AddCommandDispatcher(typeof(CancelOrderCommandHandler).Assembly);
-            services.AddQueryDispatcher(typeof(CancelOrderCommandHandler).Assembly);
+            services.AddControllers(opt =>
+            {
+                opt.Filters.Add<OperationCancelledExceptionFilter>();
+            }).AddNewtonsoftJson();
 
             services.AddScoped<IOrderRepository, OrderRepositoryBase>();
             services.AddScoped<IExecutionContext, ExecutionContext>();
-            services.AddOrderingDbContext<OrderingDbContext>(Configuration);
-
-            services.AddHostedService<StartupTaskHostedService>();
-            services.AddStartupTask<MigrationStartupTask<OrderingDbContext>>();
-            services.AddStartupTask<LoggingStartupTask>();
-            services.AddStartupTask<DataSeedingStartupTask<OrderingDbContext>>();
-            services.AddTransient<IDbDataSeeder<OrderingDbContext>, OrderingDbDataSeeder>();
-
-            services.AddSingleton<
-               IDbDataProvider<IEnumerable<OrderStatus>>,
-               PredefinedOrderStatusDataProvider>();
-
-            if (Configuration.GetValue<bool>("DataSeeding:UseCustomizationData"))
-            {
-                services.AddSingleton<
-                    IDbDataProvider<IEnumerable<CardType>>>(
-                    new JsonLineFileDbDataProvider<CardType>(Path.Combine("Data", "CardTypes.json")));
-            }
-            else
-            {
-                services.AddSingleton<
-                    IDbDataProvider<IEnumerable<CardType>>,
-                    PredefinedCardTypeDataProvider>();
-            }
-
             services.AddTransient<IExecutionPolicy, SimpleExecutionPolicy>();
+
+
+            services
+                .AddBareBones()
+                .AddStartupTask<LoggingStartupTask>()
+                .AddQueryGateway()
+                .AddCommandGateway()
+                .AddOrderingDbContext(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,23 +77,36 @@ namespace Ordering.API
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddOrderingDbContext<T>(this IServiceCollection services, IConfiguration configuration)
-            where T : DbContext
+        public static IBareBonesBuilder AddOrderingDbContext(this IBareBonesBuilder builder, IConfiguration configuration)
         {
-            services
-                .AddDbContext<OrderingDbContext>(options =>
+            return builder.AddDbContext<OrderingDbContext>(entityFramework =>
+            {
+                entityFramework
+                    .UseOptions(options =>
                     {
                         options.UseSqlServer(configuration.GetConnectionString("OrderingDb"),
-                            sqlServerOptionsAction: sqlOptions =>
+                            sqlOptions =>
                             {
                                 sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
                                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                             });
-                    },
-                    ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
-                );
+                    })
+                    .AddMigrator()
+                    .AddDataSeeder<OrderingDbDataSeeder>()
+                    .AddDataSeeder<OrderingDbDataSeeder>(seeder =>
+                    {
+                        seeder.AddDbDataProvider<IEnumerable<OrderStatus>, PredefinedOrderStatusDataProvider>();
 
-            return services;
+                        if (configuration.GetValue<bool>("DataSeeding:UseCustomizationData"))
+                        {
+                            seeder.AddDbDataProvider(new JsonLineFileDbDataProvider<CardType>(Path.Combine("Data", "CardTypes.json")));
+                        }
+                        else
+                        {
+                            seeder.AddDbDataProvider<IEnumerable<CardType>, PredefinedCardTypeDataProvider>();
+                        }
+                    });
+            });
         }
     }
 }
