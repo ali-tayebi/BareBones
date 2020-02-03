@@ -1,9 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BareBones.CQRS.Commands.Gateways
+namespace BareBones.CQRS.CommandDispatchers.Dispatchers
 {
-    public interface ICommandGateway
+
+    public interface ICommandDispatcher
     {
         Task<TResult> SendAsync<TCommand, TResult>(TCommand command, CancellationToken cancellationToken = default) where TCommand : class, ICommand;
     }

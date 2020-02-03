@@ -1,4 +1,4 @@
-using BareBones.CQRS.Commands;
+using BareBones.CQRS;
 
 namespace Ordering.API.Application.Features.OrderCancellation
 {

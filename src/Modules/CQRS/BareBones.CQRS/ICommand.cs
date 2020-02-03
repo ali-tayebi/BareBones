@@ -1,4 +1,4 @@
-namespace BareBones.CQRS.Commands
+namespace BareBones.CQRS
 {
     public interface ICommand
     {

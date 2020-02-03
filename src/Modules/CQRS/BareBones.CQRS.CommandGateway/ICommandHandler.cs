@@ -1,10 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BareBones.CQRS.Commands
+namespace BareBones.CQRS.CommandGateway
 {
     public interface ICommandHandler<in TCommand, TResult> where TCommand : ICommand
     {
-        Task<TResult> HandleAsync(TCommand request, CancellationToken cancellationToken = default);
+        Task<TResult> HandleAsync(TCommand query, CancellationToken cancellationToken = default);
     }
 }

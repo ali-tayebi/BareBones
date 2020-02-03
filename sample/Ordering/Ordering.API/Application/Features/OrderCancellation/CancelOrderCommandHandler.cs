@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using BareBones.CQRS.Commands;
+using BareBones.CQRS.CommandGateway;
 using Microsoft.Extensions.Logging;
 using Ordering.API.Application.Features.OrderCancellation;
 using Ordering.Domain;
@@ -8,7 +8,7 @@ using Ordering.Domain;
 namespace Ordering.Application.UseCases.OrderCancellation
 {
     public class CancelOrderCommandHandler :
-        ICommandHandler<CancelOrderCommand, CancelOrderCommandResult>
+    ICommandHandler<CancelOrderCommand, CancelOrderCommandResult>
     {
         private readonly ILogger<CancelOrderCommandHandler> _logger;
         private readonly IOrderRepository _orderRepository;

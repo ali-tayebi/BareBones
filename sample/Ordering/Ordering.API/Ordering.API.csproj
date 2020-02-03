@@ -5,8 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\src\Modules\CQRS\BareBones.CQRS.Commands\BareBones.CQRS.Commands.csproj" />
+      <ProjectReference Include="..\..\..\src\Modules\CQRS\BareBones.CQRS.CommandDispatchers\BareBones.CQRS.CommandDispatchers.csproj" />
+      <ProjectReference Include="..\..\..\src\Modules\CQRS\BareBones.CQRS.CommandGateway\BareBones.CQRS.CommandGateway.csproj" />
       <ProjectReference Include="..\..\..\src\Modules\CQRS\BareBones.CQRS.Queries\BareBones.CQRS.Queries.csproj" />
+      <ProjectReference Include="..\..\..\src\Modules\CQRS\BareBones.CQRS\BareBones.CQRS.csproj" />
       <ProjectReference Include="..\..\..\src\Modules\Persistence\EntityFramework\BareBones.Persistence.EntityFramework\BareBones.Persistence.EntityFramework.csproj" />
       <ProjectReference Include="..\..\..\src\Modules\WebApi\BareBones.WebApi\BareBones.WebApi.csproj" />
       <ProjectReference Include="..\Ordering.Persistence\Ordering.Persistence.csproj" />

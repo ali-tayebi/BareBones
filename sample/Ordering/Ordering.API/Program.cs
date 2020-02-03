@@ -1,8 +1,7 @@
 using System;
 using System.Reflection;
 using BareBones;
-using BareBones.CQRS.Commands;
-using BareBones.CQRS.Commands.Gateways.Filters;
+using BareBones.CQRS;
 using BareBones.Persistence.EntityFramework.Builder;
 using BareBones.StartupTasks;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +42,7 @@ namespace Ordering.API
                 //     builder
                 //         .AddStartupTask<LoggingStartupTask>()
                 //         .AddQueryGateway(typeof(GetOrderByIdQuery).Assembly)
-                //         .AddCommandGateway(typeof(CancelOrderCommand).Assembly, typeof(LoggingCommandHandlerFilter).Assembly)
+                //         .AddCommandGateway(typeof(CancelOrderCommand).Assembly, typeof(LoggingCommandDispatchFilter).Assembly)
                 //         .AddEntityFramework<OrderingDbContext>(entityFramework =>
                 //         {
                 //             entityFramework

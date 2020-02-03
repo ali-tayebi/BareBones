@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using BareBones;
+using BareBones.CQRS.CommandDispatchers.Builder;
+using BareBones.CQRS.CommandDispatchers.Filters;
+using BareBones.CQRS.Commands.Dispatchers.Filters;
+using BareBones.CQRS.CommandGateway.Builder;
 using BareBones.Persistence.EntityFramework;
 using BareBones.Persistence.EntityFramework.Builder;
 using BareBones.Persistence.EntityFramework.Migration;
@@ -14,6 +18,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ordering.API.Application.Features.OrderCancellation;
+using Ordering.Application.UseCases.OrderCancellation;
 using Ordering.Domain;
 using Ordering.Domain.Models.BuyerAggregate;
 using Ordering.Persistence;
@@ -50,7 +56,18 @@ namespace Ordering.API
                 .AddBareBones()
                 .AddStartupTask<LoggingStartupTask>()
                 .AddQueryGateway()
-                .AddCommandGateway()
+                .AddCommandDispatcher(dispatcher =>
+                {
+                    dispatcher
+                        .AddFilter<LoggingCommandDispatchFilter>()
+                        .AddInProcessDispatcher();
+                })
+                .AddCommandGateway(gateway =>
+                {
+                    gateway
+                        .AddFilter<LoggingCommandGatewayFilter>()
+                        .AddHandler<CancelOrderCommand, CancelOrderCommandResult, CancelOrderCommandHandler>();
+                })
                 .AddOrderingDbContext(Configuration);
         }
 
