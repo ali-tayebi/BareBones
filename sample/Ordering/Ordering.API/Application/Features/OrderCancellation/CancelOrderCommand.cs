@@ -6,7 +6,7 @@ namespace Ordering.Application.UseCases.OrderCancellation
 {
     public class CancelOrderCommand : ICommand
     {
-        public string UniqueId => OrderId.ToString();
+        public string IdentityKey => OrderId.ToString();
 
         [DataMember]
         public int OrderId { get; }

@@ -14,6 +14,6 @@ namespace BareBones.Messaging.CQRS
             _busClient = busClient;
         }
         public Task<TResult> SendAsync(TCommand command, CancellationToken cancellationToken = default)
-            => _busClient.SendAsync<TCommand, string, TResult>(command.UniqueId, command);
+            => _busClient.SendAsync<TCommand, string, TResult>(command.IdentityKey, command);
     }
 }
