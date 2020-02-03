@@ -1,4 +1,5 @@
 using BareBones.StartupTasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BareBones
@@ -7,6 +8,7 @@ namespace BareBones
     {
         public IServiceCollection Services { get; }
         public IModuleRegistry Registry { get; }
+        public IConfiguration Configuration => Services.BuildServiceProvider().GetService<IConfiguration>();
 
         public BareBonesBuilder(IServiceCollection services)
         {
@@ -21,6 +23,8 @@ namespace BareBones
             Registry.Add(new ModuleRegistryRecord<TModule>(typeof(TModule).FullName));
             return this;
         }
+
+
 
         public IBareBonesBuilder AddStartupTask<TStartupTask>() where TStartupTask : class, IStartupTask
         {

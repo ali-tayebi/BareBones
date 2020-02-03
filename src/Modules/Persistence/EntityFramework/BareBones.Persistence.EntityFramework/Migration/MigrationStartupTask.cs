@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using BareBones;
+using BareBones.StartupTasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace BareBones.Persistence.EntityFramework.Migration

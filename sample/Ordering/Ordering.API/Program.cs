@@ -43,7 +43,7 @@ namespace Ordering.API
                 //         .AddStartupTask<LoggingStartupTask>()
                 //         .AddQueryGateway(typeof(GetOrderByIdQuery).Assembly)
                 //         .AddCommandGateway(typeof(CancelOrderCommand).Assembly, typeof(LoggingCommandDispatchFilter).Assembly)
-                //         .AddEntityFramework<OrderingDbContext>(entityFramework =>
+                //         .UseDbContext<OrderingDbContext>(entityFramework =>
                 //         {
                 //             entityFramework
                 //                 .UseOptions(options =>

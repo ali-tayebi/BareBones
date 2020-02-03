@@ -7,6 +7,8 @@ using BareBones.CQRS.CommandDispatchers.Builder;
 using BareBones.CQRS.CommandDispatchers.Filters;
 using BareBones.CQRS.Commands.Dispatchers.Filters;
 using BareBones.CQRS.CommandGateway.Builder;
+using BareBones.Messaging.Outbox;
+using BareBones.Messaging.Outbox.EntityFramework;
 using BareBones.Persistence.EntityFramework;
 using BareBones.Persistence.EntityFramework.Builder;
 using BareBones.Persistence.EntityFramework.Migration;
@@ -68,6 +70,7 @@ namespace Ordering.API
                         .AddFilter<LoggingCommandGatewayFilter>()
                         .AddHandler<CancelOrderCommand, CancelOrderCommandResult, CancelOrderCommandHandler>();
                 })
+                .AddMessageOutbox(outbox => outbox.UseDbContext<OrderingDbContext>())
                 .AddOrderingDbContext(Configuration);
         }
 

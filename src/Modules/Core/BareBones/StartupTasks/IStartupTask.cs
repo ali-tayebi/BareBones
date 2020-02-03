@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BareBones
+namespace BareBones.StartupTasks
 {
     public interface IStartupTask
     {

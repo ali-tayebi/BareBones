@@ -59,6 +59,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BareBones.Messaging.CQRS", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BareBones.Messaging.Kafka", "src\Modules\Messaging\BareBones.Messaging.Kafka\BareBones.Messaging.Kafka.csproj", "{CD9BAF7E-69FA-4717-A048-A9AA7DFCFA7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BareBones.Messaging.Outbox", "src\Modules\Messaging\BareBones.Messaging.Outbox\BareBones.Messaging.Outbox.csproj", "{83A87E50-DE12-4484-858B-D99C90F74F90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BareBones.Messaging.Outbox.EntityFramework", "src\Modules\Messaging\BareBones.Messaging.Outbox.EntityFramework\BareBones.Messaging.Outbox.EntityFramework.csproj", "{D57222ED-6C4F-4387-BE02-C27608C72251}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +94,8 @@ Global
 		{1D830CB6-5D57-484A-B28C-827C8D13860B} = {F9D6B4D6-63B8-4D84-A4D6-F505F6523DB5}
 		{D727D1AB-ECF3-4FB9-BA82-DAA93FC7AFB9} = {F9D6B4D6-63B8-4D84-A4D6-F505F6523DB5}
 		{CD9BAF7E-69FA-4717-A048-A9AA7DFCFA7F} = {F9D6B4D6-63B8-4D84-A4D6-F505F6523DB5}
+		{83A87E50-DE12-4484-858B-D99C90F74F90} = {F9D6B4D6-63B8-4D84-A4D6-F505F6523DB5}
+		{D57222ED-6C4F-4387-BE02-C27608C72251} = {F9D6B4D6-63B8-4D84-A4D6-F505F6523DB5}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7D8A7059-3E0C-4E7E-BEE3-EF0B7E55B6EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -152,5 +158,13 @@ Global
 		{CD9BAF7E-69FA-4717-A048-A9AA7DFCFA7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD9BAF7E-69FA-4717-A048-A9AA7DFCFA7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD9BAF7E-69FA-4717-A048-A9AA7DFCFA7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83A87E50-DE12-4484-858B-D99C90F74F90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83A87E50-DE12-4484-858B-D99C90F74F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83A87E50-DE12-4484-858B-D99C90F74F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83A87E50-DE12-4484-858B-D99C90F74F90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D57222ED-6C4F-4387-BE02-C27608C72251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D57222ED-6C4F-4387-BE02-C27608C72251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D57222ED-6C4F-4387-BE02-C27608C72251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D57222ED-6C4F-4387-BE02-C27608C72251}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
